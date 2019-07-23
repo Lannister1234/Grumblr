@@ -1,7 +1,3 @@
-To turn in homework 5, create files (and subdirectories if needed) in this directory, add and commit those files to your cloned repository, and push your commit to your bare repository on GitHub.
-
-Add any general notes or instructions for the TAs to this README file. The TAs will read this file before evaluating your work.
-
 The resources I use:
 1. https://www.digitalocean.com/community/tutorials/how-to-use-the-django-one-click-install-image-for-ubuntu-14-04
 2. https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
