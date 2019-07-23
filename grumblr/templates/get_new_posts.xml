@@ -1,0 +1,13 @@
+{% if posts %}
+{% for p in posts %}
+<div class="media text-muted pt-3 post-div" id="{{ p.id }}">
+<img src="{% url 'get_photo' p.user.username %}" class="mr-2 rounded post_image">
+<p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+    <strong class="d-block text-gray-dark"><a href="{% url 'profile' %}?username={{p.user.username}}"><u>@{{p.user.username}}</u></a></strong>
+    <u>{{p.text}}</u>
+    <small class="time_stamp">  {{p.time}} </small>
+    <a href="" class="d-block comment">Comment</a>
+</p>
+</div>
+{% endfor %}
+{% endif %}

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block other_css %}
+    <link href="{% static "css/form-validation.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block left_navbar %}
+    {{ block.super }}
+{% endblock %}
+
+{% block right_navbar %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="bg-light bg_image">
+
+    <!-- add profile image -->
+    <div class="my-3 p-3 text-center bg-info">
+        <img src="{% url 'get_photo' user.username %}" class="rounded profile_image">
+        <h2>{{user.username}}</h2>
+    </div>
+
+    <!-- add profile information -->
+    <div class="my-3 p-3 bg-white rounded shadow-sm post_container">
+        <h5 class="border-bottom border-gray pb-2 mb-0 profile_title"> My profile </h5>
+
+        <form enctype="multipart/form-data" action="{% url 'edit_profile' %}" method="post">
+        <div class="row" >
+        <ul class="mb-3 profile_left">
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">First name:</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">Last name:</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">Age:</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">Bio:</h7></div>
+            </li><br><br><br>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">Photo:</h7></div>
+            </li>
+        </ul>
+
+        <ul class="mb-3 profile_right">
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><input type="text" name="first_name" value="{{ user_profile.first_name }}"><br></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><input type="text" name="last_name" value="{{ user_profile.last_name }}"><br></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><input type="text" name="age" value="{{ user_profile.age }}"><br></div>
+            </li>
+            <li class="d-flex justify-content-between">
+                <div><textarea id="input_bio" name="bio" class="form-control" rows="2" required="" \>{{ user_profile.bio }}</textarea><br></div>
+            </li>
+            <li class="d-flex justify-content-between">
+                <div><input type="file" name="photo"></div>
+            </li>
+        </ul>
+        </div>
+
+        {% csrf_token %}
+
+        <!-- display errors if any -->
+        {% if form.non_field_errors or form.errors %}
+        <div class="error_text3">
+            {% for error in form.non_field_errors %}
+            <h6><p class="error_text4">{{ error }}</p></h6>
+            {% endfor %}
+
+            {% for field in form %}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                <h6><p class="error_text4">{{ field.label }}:{{ error }}</p></h6>
+                {% endfor %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- add a submit button -->
+        <button class="btn btn-sm btn-primary" type="submit">save changes</button><br><br>
+        </form>
+
+        <!-- add a change password link -->
+        <h8><a href="{% url 'send_email' %}"><u>Reset password</u></a></h8>
+        {% if reset == True %}
+            <div class="error_text3">
+                <h6><p class="error_text4">An email for reseting your passward has already
+                been sent to your email, please click on the link attached in the email for
+                creating your new password.
+                </p></h6>
+            </div>
+        {% endif %}
+    </div>
+
+    {% block posts %}
+    {% endblock %}
+
+</div>
+{% endblock %}

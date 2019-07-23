@@ -1,0 +1,16 @@
+{% if form %}
+{% for error in form.non_field_errors %}
+    <p class="error_text"> {{ error }}</p>
+{% endfor %}
+{% endif %}
+{% if comment %}
+<div class="media text-muted pt-3 post-div move-right" id="{{ comment.id }}">
+<img src="{% url 'get_photo' comment.user.username %}" class="mr-2 rounded post_image">
+<p class="media-body pb-3 mb-0 small lh-125 border-top border-gray">
+    <strong class="d-block text-gray-dark"><a href="{% url 'profile' %}?username={{comment.user.username}}">
+        <u>@{{comment.user.username}}</u></a></strong>
+    <u>{{comment.text}}</u>
+    <small class="time_stamp">  {{comment.time}} </small>
+</p>
+</div>
+{% endif %}

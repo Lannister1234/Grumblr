@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block other_css %}
+    <link href="{% static "css/signin.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block left_navbar %}
+{% endblock %}
+
+{% block right_navbar %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    {% if form.errors %}
+        <h5><p class="error_text5">
+        Incorrect username and password!
+        </p></h5>
+    {% endif %}
+
+    <!-- sign in form -->
+    <form class="form-signin text-center" method="post" action="{% url 'login' %}">
+
+        <img class="mb-4" src="../static/images/logo.png" alt="app logo" width="100" height="100">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <!-- login in with username and password -->
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" required="">
+        <!-- checkbox for remember me -->
+        <div class="checkbox mb-3">
+            <label><input type="checkbox" value="remember-me"> Remember me </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><br>
+
+        <input type="hidden" name="next" value="{{next}}" />
+        {% csrf_token %}
+        <!-- go to register page -->
+        <u><a href="/register">Not yet a user? Sign up</a></u>
+        <p class="mt-5 mb-3 text-muted">&copy; 2018-2019</p>
+
+    </form>
+</div>
+
+{% endblock %}
+
+

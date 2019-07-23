@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<title>Grumblr</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/grumblr.css" %}" rel="stylesheet">
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script src="{% static "js/grumblr.js" %}"></script>
+    {% block other_css %} {% endblock %}
+</head>
+
+<body>
+	<header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <a class="navbar-brand" href="#">Grumblr</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}"> Home <span class="sr-only">(current)</span></a>
+              </li>
+              {% block left_navbar %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'profile' %}"> My profile <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'follow_stream' %}"> Follow Stream <span class="sr-only">(current)</span></a>
+              </li>
+              {% endblock %}
+            </ul>
+
+            {% block right_navbar %}
+            <form class="form-inline mt-2 mt-md-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'logout' %}"> Log out <span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+            {% endblock %}
+          </div>
+        </nav>
+    </header>
+
+    {% block content %}
+        {% block posts %}
+        <!--add all the posts in global stream page -->
+        <div class="my-3 p-3 bg-white rounded shadow-sm post_container">
+        <h5 class="border-bottom border-gray pb-2 mb-0">Recent updates</h5>
+
+        {% if posts_with_commts %}
+        {% for pair in posts_with_commts %}
+        {% with comments=pair.comments p=pair.post %}
+        <div class="media text-muted pt-3 post-div" id="{{ p.id }}">
+        <img src="{% url 'get_photo' p.user.username %}" class="mr-2 rounded post_image">
+        <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <strong class="d-block text-gray-dark"><a href="{% url 'profile' %}?username={{p.user.username}}"><u>@{{p.user.username}}</u></a></strong>
+            <u>{{p.text}}</u>
+            <small class="time_stamp">  {{p.time}} </small>
+            <a href="" class="d-block comment">Comment</a>
+            {% for comment in comments %}
+            <div class="media text-muted pt-3 post-div move-right" id="{{ comment.id }}">
+            <img src="{% url 'get_photo' comment.user.username %}" class="mr-2 rounded post_image">
+            <p class="media-body pb-3 mb-0 small lh-125 border-top border-gray">
+                <strong class="d-block text-gray-dark"><a href="{% url 'profile' %}?username={{comment.user.username}}">
+                    <u>@{{comment.user.username}}</u></a></strong>
+                <u>{{comment.text}}</u>
+                <small class="time_stamp">  {{comment.time}} </small>
+            </p>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+        {% endwith %}
+        {% endfor %}
+        {% endif %}
+        <small class="d-block text-right mt-3"><a href="#">All posts</a></small>
+        </div>
+        {% endblock %}
+    {% endblock %}
+</body>
+</html>

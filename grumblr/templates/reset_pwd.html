@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block other_css %}
+{% endblock %}
+
+{% block left_navbar %}
+{% endblock %}
+
+{% block right_navbar %}
+{% endblock %}
+
+{% block content %}
+{% block posts %}
+{% endblock %}
+
+<div class="error_text5">
+{% for error in form.non_field_errors %}
+    <h5><p class="error_text4">{{ error }}</p></h5>
+{% endfor %}
+{% for field in form %}
+    {% if field.errors %}
+    {% for error in field.errors %}
+    <h6><p class="error_text4">{{ field.label }}:{{ error }}</p></h6>
+    {% endfor %}
+    {% endif %}
+{% endfor %}
+</div>
+
+<form class="reset_pwd_text" action="{% url 'reset_pwd' user.username token %}" method="post">
+    <p> Reset password:</p>
+    New Password:  <input type="password" name="password"><br>
+    Confirm Password: <input type="password" name="password2"><br>
+    {% csrf_token %}
+    <input type="submit" value="Confirm">
+</form>
+{% endblock %}

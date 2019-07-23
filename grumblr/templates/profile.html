@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block other_css %}
+    <link href="{% static "css/form-validation.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block left_navbar %}
+    {{ block.super }}
+{% endblock %}
+
+{% block right_navbar %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="bg-light bg_image">
+
+    <!-- add profile image -->
+    <div class="my-3 p-3 text-center bg-info">
+        <img src="{% url 'get_photo' username %}" class="rounded profile_image">
+        <h2>{{username}}</h2>
+        <p>{{user_profile.bio}}</p>
+    </div>
+
+    <!-- add profile information -->
+    <div class="my-3 p-3 bg-white rounded shadow-sm post_container">
+        <h5 class="border-bottom border-gray pb-2 mb-0 profile_title"> My profile </h5>
+        <div class="row" >
+        <ul class="mb-3 profile_left">
+            <li class="d-flex justify-content-between lh-condensed">
+              <div><h7 class="my-0">User name:</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">First name:</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">Last name:</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">Age:</h7></div>
+            </li>
+        </ul>
+        <ul class="mb-3 profile_right">
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">{{username}}</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">{{user_profile.first_name}}</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">{{user_profile.last_name}}</h7></div>
+            </li>
+            <li class="d-flex justify-content-between lh-condensed">
+                <div><h7 class="my-0">{{ user_profile.age }}</h7></div>
+            </li>
+        </ul>
+        </div>
+        {% if username == user.username %}
+            <small class="edit_profile_text">
+                <a href="{% url 'edit_profile' %}"><u>Edit profile</u></a>
+            </small>
+        {% else %}
+            <small>
+            {% if isfollow == True %}
+            <a href="{% url 'unfollow' username %}">Unfollow</a>
+            {% else %}
+            <a href="{% url 'follow' username %}">Follow</a>
+            {% endif %}
+            </small>
+        {% endif %}
+    </div>
+
+    {% block posts %}
+        {{ block.super }}
+    {% endblock %}
+
+</div>
+{% endblock %}

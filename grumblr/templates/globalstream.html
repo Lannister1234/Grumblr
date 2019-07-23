@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block other_css %}
+    <link href="{% static "css/form-validation.css" %}" rel="stylesheet">
+    <script src="{% static "js/get_posts.js" %}"></script>
+{% endblock %}
+
+{% block left_navbar %}
+    {{ block.super }}
+{% endblock %}
+
+{% block right_navbar %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="bg-light bg_image">
+
+    <div class="my-3 p-3 text-center bg-info">
+        <img src="{% url 'get_photo' user.username %}" class="rounded profile_image">
+        <h2>{{ username }}</h2>
+    </div>
+
+    <!--add text input box -->
+    <div class="my-3 p-3 bg-white rounded shadow-sm text-inbox">
+        <form method="POST" action="{% url 'home' %}">
+        <label for="uploadposts" class="sr-only">New posts</label>
+        <textarea id="input_text" name="text" class="form-control" rows="3" placeholder="42 characters or less" required autofocus></textarea><br>
+
+        {% for error in form.non_field_errors %}
+        <p class="error_text"> {{ error }}</p>
+        {% endfor %}
+
+        <button class="btn btn-sm btn-primary" type="submit">post</button>
+        {% csrf_token %}
+        </form>
+    </div>
+
+    {% block posts %}
+        {{ block.super }}
+    {% endblock %}
+
+</div>
+{% endblock %}
